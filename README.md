@@ -2,7 +2,7 @@
 
 Fetches Mindscape AMA questions from Patreon and sorts them using quantum random numbers from the [ANU QRNG service](https://qrng.anu.edu.au).
 
-Inspired by Trevor Morrissey's suggestion in the [May 2023 AMA](https://www.preposterousuniverse.com/podcast/2023/05/08/ama-may-2023/) to use quantum randomness to ensure every question gets answered in at least one branch of the Everettian multiverse.
+Inspired by Trevor Morrissey's suggestion in the [May 2023 AMA at 1h12m](https://www.preposterousuniverse.com/podcast/2023/05/08/ama-may-2023/) to use quantum randomness to ensure every question gets answered in at least one branch of the Everettian multiverse.
 
 ## Features
 
