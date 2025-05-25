@@ -12,7 +12,7 @@ python quantum-random-ama-questions.py [--quantum] [--gist] [--cache]
 
 - `--quantum`: Use ANU Quantum RNG (requires `ANU_QUANTUM_API_KEY`)
 - `--gist`: Upload results to GitHub Gist (requires `GITHUB_TOKEN`)
-- `--cache`: Read from cache when available (always writes to cache)
+- `--cache`: Fetch Patreon comment URLs from cache when available (always writes to cache)
 
 ## Environment Variables
 
