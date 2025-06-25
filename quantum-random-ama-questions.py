@@ -15,7 +15,7 @@ from io import StringIO
 MAX_QUESTIONS = 500
 
 
-POST_URL = "https://www.patreon.com/posts/129279432"
+POST_URL = "https://www.patreon.com/posts/132289911"
 
 ANU_API_URL = "https://api.quantumnumbers.anu.edu.au"
 REPO_URL = "https://github.com/paul-gauthier/quantum-random-ama-questions"
@@ -188,12 +188,12 @@ def get_random_numbers_for_questions(comments, use_quantum_randomness=False):
     if use_quantum_randomness:
         # Load existing cache
         qrng_cache = load_qrng_cache()
-        
+
         # Get the cache for this specific bits_per_question value
         bits_key = str(bits_per_question)
         if bits_key not in qrng_cache:
             qrng_cache[bits_key] = {}
-        
+
         bits_cache = qrng_cache[bits_key]
 
         # Find new hashes not in cache for this bits_per_question
