@@ -50,6 +50,10 @@ INTRO=INTRO.format(
 QRNG_CACHE = "qrng_cache.json"
 
 
+# Map from Patreon post URL to Gist URL.
+GIST_URLS_CACHE = "gist-urls.json"
+
+
 # Extract post ID from POST_URL and construct API URL
 POST_ID = POST_URL.split('/')[-1]
 POST_API_URL = f"https://www.patreon.com/api/posts/{POST_ID}"
@@ -62,8 +66,6 @@ ANU_API_KEY = os.environ.get("ANU_QUANTUM_API_KEY")
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 # Patreon cookie should be set as an environment variable: PATREON_COOKIE
 PATREON_COOKIE = os.environ.get("PATREON_COOKIE")
-# GitHub Gist URL should be set as an environment variable: GIST_URL
-GIST_URL = os.environ.get("GIST_URL")
 
 def get_title(use_quantum):
     """Generate the title string based on randomness source."""
@@ -164,6 +166,24 @@ def save_qrng_cache(cache):
             json.dump(cache, f, indent=2)
     except IOError as e:
         print(f"Warning: Could not save QRNG cache: {e}")
+
+def load_gist_urls_cache():
+    """Load the Gist URLs cache from disk."""
+    if os.path.exists(GIST_URLS_CACHE):
+        try:
+            with open(GIST_URLS_CACHE, 'r') as f:
+                return json.load(f)
+        except (IOError, json.JSONDecodeError) as e:
+            print(f"Warning: Could not read Gist URLs cache: {e}")
+    return {}
+
+def save_gist_urls_cache(cache):
+    """Save the Gist URLs cache to disk."""
+    try:
+        with open(GIST_URLS_CACHE, 'w') as f:
+            json.dump(cache, f, indent=2)
+    except IOError as e:
+        print(f"Warning: Could not save Gist URLs cache: {e}")
 
 def get_question_hash(question_text):
     """Get SHA1 hash of question text."""
@@ -377,9 +397,9 @@ def fetch_patreon_comments(use_cache=False):
         print(f"Unexpected JSON structure in response (e.g., missing 'links' or 'next' for pagination): {e}")
         return []
 
-def upload_to_github_gist(content, filename="ama_questions.md", description=None):
+def upload_to_github_gist(content, gist_url=None, filename="ama_questions.md", description=None):
     """
-    Upload content to a GitHub Gist. Creates new gist if GIST_URL is None, otherwise updates existing gist.
+    Upload content to a GitHub Gist. Creates new gist if gist_url is None, otherwise updates existing gist.
     Returns the Gist URL if successful, None otherwise.
     """
     if not GITHUB_TOKEN:
@@ -407,7 +427,7 @@ def upload_to_github_gist(content, filename="ama_questions.md", description=None
     }
 
     # Determine if we're creating or updating
-    if GIST_URL is None:
+    if gist_url is None:
         # Create new gist
         url = "https://api.github.com/gists"
         method = "POST"
@@ -416,7 +436,7 @@ def upload_to_github_gist(content, filename="ama_questions.md", description=None
     else:
         # Update existing gist - extract gist ID from URL
         # URL format: https://gist.github.com/username/gist_id
-        gist_id = GIST_URL.split('/')[-1]
+        gist_id = gist_url.split('/')[-1]
         url = f"https://api.github.com/gists/{gist_id}"
         method = "PATCH"
         expected_status = 200
@@ -523,17 +543,22 @@ def process_comments_with_randomness(comments, use_quantum_randomness=False, upl
 
     # Upload to GitHub Gist if requested
     if upload_gist:
-        if GIST_URL is None:
+        gist_urls_cache = load_gist_urls_cache()
+        gist_url = gist_urls_cache.get(POST_URL)
+
+        if gist_url is None:
             print("\nCreating new GitHub Gist...")
         else:
-            print(f"\nUpdating existing GitHub Gist: {GIST_URL}")
+            print(f"\nUpdating existing GitHub Gist: {gist_url}")
         title = get_title(was_quantum_used)
-        gist_url = upload_to_github_gist(markdown_content, description=title)
-        if gist_url:
-            if GIST_URL is None:
-                print(f"Successfully created new GitHub Gist: {gist_url}")
+        new_gist_url = upload_to_github_gist(markdown_content, gist_url=gist_url, description=title)
+        if new_gist_url:
+            if gist_url is None:
+                print(f"Successfully created new GitHub Gist: {new_gist_url}")
+                gist_urls_cache[POST_URL] = new_gist_url
+                save_gist_urls_cache(gist_urls_cache)
             else:
-                print(f"Successfully updated GitHub Gist: {gist_url}")
+                print(f"Successfully updated GitHub Gist: {new_gist_url}")
         else:
             print("Failed to upload to GitHub Gist.")
 
