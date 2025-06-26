@@ -28,7 +28,6 @@ Create a `.env` file with:
 ANU_QUANTUM_API_KEY=your_anu_api_key
 GITHUB_TOKEN=your_github_token
 PATREON_COOKIE=your_patreon_session_cookie
-GIST_URL=https://gist.github.com/username/gist_id
 ```
 
 ## Dependencies
