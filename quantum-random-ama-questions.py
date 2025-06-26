@@ -40,10 +40,6 @@ As such, every permutation of the question list will exist in at least one branc
 This list will be [updated]({repo_url}) periodically as new questions are [posted to Patreon]({post_url}).
 """
 
-INTRO=INTRO.format(
-    repo_url=REPO_URL,
-    post_url=POST_URL,
-)
 
 
 # Map from sha1(question_text) -> QRN from AU QRNG.
@@ -526,7 +522,11 @@ def process_comments_with_randomness(comments, use_quantum_randomness=False, upl
     randomness_type = "Quantum" if was_quantum_used else "Pseudo"
     title = get_title(was_quantum_used)
     output_buffer.write(f"# {title}\n\n")
-    output_buffer.write(INTRO)
+    output_buffer.write(INTRO.format(
+        num_questions=num_questions,
+        repo_url=REPO_URL,
+        post_url=POST_URL)
+    )
     output_buffer.write(f" Last updated on {datetime.now(ZoneInfo('America/New_York')).strftime('%Y-%m-%d at %H:%M %Z')}.\n\n")
     if not was_quantum_used:
         output_buffer.write("\nNote: this data was generated using pseudo-random numbers for testing.\n\n")
