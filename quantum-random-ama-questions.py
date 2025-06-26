@@ -51,7 +51,7 @@ QRNG_CACHE = "qrng_cache.json"
 
 
 # Map from Patreon post URL to Gist URL.
-GIST_URLS_CACHE = "gist-urls.json"
+GIST_URLS_CACHE = "cache/gist-urls.json"
 
 
 # Extract post ID from POST_URL and construct API URL
