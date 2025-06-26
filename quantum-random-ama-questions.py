@@ -9,6 +9,7 @@ import os
 import math
 import sys
 from datetime import datetime
+from zoneinfo import ZoneInfo
 from dotenv import load_dotenv
 from io import StringIO
 
@@ -526,7 +527,7 @@ def process_comments_with_randomness(comments, use_quantum_randomness=False, upl
     title = get_title(was_quantum_used)
     output_buffer.write(f"# {title}\n\n")
     output_buffer.write(INTRO)
-    output_buffer.write(f" Last updated at {datetime.now().strftime('%Y-%m-%d %H:%M:%S UTC')}.\n\n")
+    output_buffer.write(f" Last updated at {datetime.now(ZoneInfo('America/New_York')).strftime('%Y-%m-%d %H:%M:%S %Z')}.\n\n")
     if not was_quantum_used:
         output_buffer.write("\nNote: this data was generated using pseudo-random numbers for testing.\n\n")
 
