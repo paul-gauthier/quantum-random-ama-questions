@@ -40,7 +40,8 @@ Sean can simply find the first question he wasn't planning to answer,
 and then answer it too. This will ensure that
 every question gets answered in some branch of the Everettian multiverse.
 
-This list will be [updated]({repo_url}) periodically as new questions are [posted to Patreon]({post_url}).
+The list is created/updated automatically via a small [python program]({repo_url})
+This list will be updated periodically as new questions are [posted to Patreon]({post_url}).
 """
 
 
