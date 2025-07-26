@@ -16,7 +16,7 @@ from io import StringIO
 MAX_QUESTIONS = 500
 
 
-POST_URL = "https://www.patreon.com/posts/132289911"
+POST_URL = "https://www.patreon.com/posts/135012800"
 
 ANU_API_URL = "https://api.quantumnumbers.anu.edu.au"
 REPO_URL = "https://github.com/paul-gauthier/quantum-random-ama-questions"
