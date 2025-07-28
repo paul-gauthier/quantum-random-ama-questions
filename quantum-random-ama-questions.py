@@ -377,7 +377,7 @@ def fetch_patreon_comments(use_cache=False):
                     continue
 
                 # Construct comment URL
-                comment_url = f"{POST_URL}?comment={comment_id}"
+                comment_url = f"{POST_URL}?cid={comment_id}"
 
                 comments.append({
                     "username": commenter_name,
@@ -495,7 +495,7 @@ def process_comments_with_randomness(comments, use_quantum_randomness=False, upl
     comment_random_pairs = []
     for i, comment in enumerate(comments):
         username = comment['username'].strip()
-        text = f"**{username}** says: {comment['text']}"
+        text = f"[**{username}**]({comment['comment_url']}) says: {comment['text']}"
         comment_random_pairs.append((random_numbers[i], text, comment['comment_url']))
 
     # Sort by random number
